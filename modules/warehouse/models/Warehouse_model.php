@@ -4032,6 +4032,7 @@ class Warehouse_model extends App_Model {
 	public function commodity_sync_model() {
 		$pospospos_db = $this->load->database('pospospos', TRUE);
 		$pospospos_db->empty_table('products');
+		$pospospos_db->empty_table('product_store_qty');
 		$q = $this->db->get('items');
 
         if ($q->num_rows() > 0) {
@@ -4045,13 +4046,25 @@ class Warehouse_model extends App_Model {
 	                'cost' => $row->purchase_price,
 	                'tax' => $row->tax,
 	                'tax_method' => '1',
-	                'alert_quantity' => '1',
+	                'alert_quantity' => $row->unit,
 	                'quantity' => $row->unit,
 	                'details' => $row->long_description,
 	                'barcode_symbology' => $row->commodity_type,
                 );
-
                 $pospospos_db->insert('products', $data);
+
+                $product_id = $pospospos_db->insert_id();
+                
+                $unit = $row->unit;
+                if(!$row->unit)
+                	$unit = 0;
+                $store_quantity = array(
+                    'store_id' => '1',
+                    'quantity' => $unit,
+                    'price' => $row->purchase_price,
+                    'product_id' => $product_id,
+                );
+                $pospospos_db->insert('product_store_qty', $store_quantity);
             }
         }
 	}
