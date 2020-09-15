@@ -1,0 +1,28 @@
+.modal1 {
+      z-index: none !important;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1050;
+      display: none;
+      overflow: hidden;
+      -webkit-overflow-scrolling: touch;
+      outline: 0;
+    }
+    
+.ht_clone_top th {
+  color: white;
+  background-color: #00bcd4;
+  font-weight: 500;
+}
+.ht_master tr:nth-of-type(even) > td {
+  background-color: #03a9f43d;
+}
+.handsontable thead th.ht__highlight{
+  color: white;
+  background-color: #03a9f49e;
+  font-weight: 500;
+}
+
