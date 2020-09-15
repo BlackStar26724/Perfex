@@ -4038,23 +4038,23 @@ class Warehouse_model extends App_Model {
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
                 $data = array(
-	                'type' => $row->commodity_type,
+	                'type' => 'standard',
 	                'code' => $row->commodity_code,
 	                'name' => $row->description,
 	                'category_id' => '1',
 	                'price' => $row->purchase_price,
 	                'cost' => $row->purchase_price,
 	                'tax' => $row->tax,
-	                'tax_method' => '1',
+	                'tax_method' => '0',
 	                'alert_quantity' => $row->unit,
-	                'quantity' => $row->unit,
+	                'quantity' => '0',
 	                'details' => $row->long_description,
-	                'barcode_symbology' => $row->commodity_type,
+	                'barcode_symbology' => 'code128',
                 );
                 $pospospos_db->insert('products', $data);
 
                 $product_id = $pospospos_db->insert_id();
-                
+
                 $unit = $row->unit;
                 if(!$row->unit)
                 	$unit = 0;
