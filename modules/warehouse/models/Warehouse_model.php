@@ -4042,8 +4042,8 @@ class Warehouse_model extends App_Model {
 	                'code' => $row->commodity_code,
 	                'name' => $row->description,
 	                'category_id' => '1',
-	                'price' => $row->purchase_price,
-	                'cost' => $row->purchase_price,
+	                'price' => $row->rate,
+	                'cost' => $row->rate,
 	                'tax' => $row->tax,
 	                'tax_method' => '0',
 	                'alert_quantity' => $row->unit,
@@ -4061,7 +4061,7 @@ class Warehouse_model extends App_Model {
                 $store_quantity = array(
                     'store_id' => '1',
                     'quantity' => $unit,
-                    'price' => $row->purchase_price,
+                    'price' => $row->rate,
                     'product_id' => $product_id,
                 );
                 $pospospos_db->insert('product_store_qty', $store_quantity);
