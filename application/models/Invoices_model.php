@@ -1679,4 +1679,51 @@ class Invoices_model extends App_Model
         $this->db->set('value', 'value-1', false);
         $this->db->update(db_prefix() . 'options');
     }
+    //////////////////////////////////////////////////////////////
+    public function vip_model()
+    {
+        $this->db->query("ALTER TABLE tblinvoices ADD vip TEXT NULL");
+        $q = $this->db->get('invoices');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                if($row->vip == NULL) {
+                    $group_id = $this->db->get_where('customer_groups', array('customer_id' => $row->clientid));
+                    if($group_id->num_rows() > 0) {
+                        $group_id = $group_id->result();
+                        $group_id = $group_id[0]->groupid;
+
+                        $group_name = $this->db->get_where('customers_groups', array('id' => $group_id))->result();
+                        $group_name = $group_name[0]->name;
+
+                        $discount_percent = 0;
+                        $discount_type = '';
+                        $discount_total = 0;
+                        $vip = 0;
+                        if($group_name == 'T1') {
+                            $discount_percent = 25;
+                            $discount_type = 'before_tax';
+                            $discount_total = $row->subtotal * 0.25;
+                            $vip = 1;
+                        }
+                        else if($group_id == 'T2') {
+                            $discount_percent = 35;
+                            $discount_type = 'before_tax';
+                            $discount_total = $row->subtotal * 0.35;
+                            $vip = 2;
+                        }
+                        else if($group_id == 'T3') {
+                            $discount_percent = 50;
+                            $discount_type = 'before_tax';
+                            $discount_total = $row->subtotal * 0.5;
+                            $vip = 3;
+                        }
+                        $this->db->update('invoices', array('discount_percent' => $discount_percent, 'discount_total' => $discount_total, 'discount_type' => $discount_type, 'total' => $row->subtotal + $row->total_tax - $discount_total, 'vip' => $vip), array('id' => $row->id));
+                    }
+                    else {
+                        $this->db->update('invoices', array('vip' => '0'), array('id' => $row->id));
+                    }
+                }
+            }
+        }
+    }
 }

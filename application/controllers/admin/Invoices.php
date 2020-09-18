@@ -710,4 +710,11 @@ class Invoices extends AdminController
             }
         }
     }
+
+    //////////////////////////////////////////////////////
+    public function implement_vip()
+    {
+        $this->invoices_model->vip_model();
+        $this->index();
+    }
 }
