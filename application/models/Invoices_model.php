@@ -1705,13 +1705,13 @@ class Invoices_model extends App_Model
                             $discount_total = $row->subtotal * 0.25;
                             $vip = 1;
                         }
-                        else if($group_id == 'T2') {
+                        else if($group_name == 'T2') {
                             $discount_percent = 35;
                             $discount_type = 'before_tax';
                             $discount_total = $row->subtotal * 0.35;
                             $vip = 2;
                         }
-                        else if($group_id == 'T3') {
+                        else if($group_name == 'T3') {
                             $discount_percent = 50;
                             $discount_type = 'before_tax';
                             $discount_total = $row->subtotal * 0.5;
