@@ -349,6 +349,8 @@ class Invoices_model extends App_Model
         $data  = $hook['data'];
         $items = $hook['items'];
 
+        $data['vip'] = $data['group'];
+        unset($data['group']);
         $this->db->insert(db_prefix() . 'invoices', $data);
         $insert_id = $this->db->insert_id();
         if ($insert_id) {

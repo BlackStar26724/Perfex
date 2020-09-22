@@ -295,6 +295,7 @@
 
                <div class="row">
                   <div class="col-md-6">
+                    <input type="hidden" name="group" id="client_group" value="<?php echo isset($invoice)?$invoice->vip:'0' ?>">
                      <?php
                         $currency_attr = array('disabled'=>true,'data-show-subtext'=>true);
                         $currency_attr = apply_filters_deprecated('invoice_currency_disabled', [$currency_attr], '2.3.0', 'invoice_currency_attributes');
@@ -501,7 +502,8 @@
                      ?>
                   <th width="10%" align="right" class="qty"><?php echo $qty_heading; ?></th>
                   <th width="15%" align="right"><?php echo _l('invoice_table_rate_heading'); ?></th>
-                  <th width="20%" align="right"><?php echo _l('invoice_table_tax_heading'); ?></th>
+                  <th width="15%" align="right">discount</th>
+                  <th width="5%" align="right"><?php echo _l('invoice_table_tax_heading'); ?></th>
                   <th width="10%" align="right"><?php echo _l('invoice_table_amount_heading'); ?></th>
                   <th align="center"><i class="fa fa-cog"></i></th>
                </tr>
@@ -522,6 +524,14 @@
                   </td>
                   <td>
                      <input type="number" name="rate" class="form-control" placeholder="<?php echo _l('item_rate_placeholder'); ?>">
+                  </td>
+                  <td>
+                    <select name="vip" class="selectpicker vip" data-width="100%" data-none-selected-text="">
+                        <option value="0" selected>0%</option>
+                        <option value="25" >25%</option>
+                        <option value="35" >35%</option>
+                        <option value="50" >50%</option>
+                    </select>
                   </td>
                   <td>
                      <?php
@@ -576,6 +586,7 @@
                     $table_row .= form_hidden('' . $items_indicator . '[' . $i . '][itemid]', $item['id']);
                     $amount = $item['rate'] * $item['qty'];
                     $amount = app_format_number($amount);
+                    echo $amount;
                     // order input
                     $table_row .= '<input type="hidden" class="order" name="' . $items_indicator . '[' . $i . '][order]">';
                     $table_row .= '</td>';
@@ -596,6 +607,30 @@
 
                     $table_row .= '</td>';
                     $table_row .= '<td class="rate"><input type="number" data-toggle="tooltip" title="' . _l('numbers_not_formatted_while_editing') . '" onblur="calculate_total();" onchange="calculate_total();" name="' . $items_indicator . '[' . $i . '][rate]" value="' . $item['rate'] . '" class="form-control"></td>';
+                    $selected1 = '';
+                    $selected2 = '';
+                    $selected3 = '';
+                    $selected4 = '';
+
+                    $table_row .= '<td class="vip"><select name="'. $items_indicator . '[' . $i . '][vip]" onblur="calculate_total();" onchange="calculate_total();" data-discount class="selectpicker vip" data-width="100%" data-none-selected-text="">';
+
+                    if($item['vip']==NULL || $item['vip'] == 0) {
+                        $selected1 = 'selected';
+                    }
+                    else if($item['vip'] == 25) {
+                        $selected2 = 'selected';
+                    }
+                    else if($item['vip'] == 35) {
+                        $selected3 = 'selected';
+                    }
+                    else if($item['vip'] == 50) {
+                        $selected4 = 'selected';
+                    }
+                    $table_row .= '<option value="0"' . $selected1 . '>0%</option>';
+                    $table_row .= '<option value="25"' . $selected2 . '>25%</option>';
+                    $table_row .= '<option value="35"' . $selected3 . '>35%</option>';
+                    $table_row .= '<option value="50"' . $selected4 . '>50%</option></select></td>';
+
                     $table_row .= '<td class="taxrate">' . $this->misc_model->get_taxes_dropdown_template('' . $items_indicator . '[' . $i . '][taxname][]', $invoice_item_taxes, 'invoice', $item['id'], true, $manual) . '</td>';
                     $table_row .= '<td class="amount" align="right">' . $amount . '</td>';
                     $table_row .= '<td><a href="#" class="btn btn-danger pull-left" onclick="delete_item(this,' . $item['id'] . '); return false;"><i class="fa fa-times"></i></a></td>';

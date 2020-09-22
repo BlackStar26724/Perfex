@@ -1645,4 +1645,16 @@ class Clients_model extends App_Model
             'profile_image' => null,
         ]);
     }
+
+    public function get_group($id = '')
+    {
+
+        $group_id = $this->db->get_where('customer_groups', array('customer_id' => $id))->result();
+        $group_id = $group_id[0]->groupid;
+
+        $group_name = $this->db->get_where('customers_groups', array('id' => $group_id))->result();
+        $group_name = $group_name[0]->name;
+
+        return $group_name;
+    }
 }

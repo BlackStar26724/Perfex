@@ -84,6 +84,7 @@ class Invoices extends AdminController
 
             $data['customer_has_projects'] = customer_has_projects($customer_id);
             $data['billable_tasks']        = $this->tasks_model->get_billable_tasks($customer_id);
+            $data['group_name'] = $this->clients_model->get_group($customer_id);
 
             if ($current_invoice != '') {
                 $this->db->select('status');

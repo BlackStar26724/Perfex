@@ -117,7 +117,7 @@ class App_items_table extends App_items_table_template
              */
             $item_amount_with_quantity = hooks()->apply_filters(
                 'item_preview_amount_with_currency',
-                app_format_money(($item['qty'] * $item['rate']), $this->transaction->currency_name, $this->exclude_currency()),
+                app_format_money(($item['qty'] * $item['rate'] * (100 - $item['vip']) / 100), $this->transaction->currency_name, $this->exclude_currency()),
                 $item,
                 $this->transaction,
                 $this->exclude_currency()
