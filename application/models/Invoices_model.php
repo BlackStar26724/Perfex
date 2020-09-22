@@ -842,8 +842,9 @@ class Invoices_model extends App_Model
         unset($data['removed_items']);
 
         $this->db->where('id', $id);
+        $data['vip'] = $data['group'];
+        unset($data['group']);
         $this->db->update(db_prefix() . 'invoices', $data);
-
         if ($this->db->affected_rows() > 0) {
             $affectedRows++;
             if (isset($data['data']) && $original_number != $data['number']) {
