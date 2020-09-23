@@ -44,7 +44,8 @@
                   ?>
                <th width="10%" class="qty" align="right"><?php echo $qty_heading; ?></th>
                <th width="15%" align="right"><?php echo _l('estimate_table_rate_heading'); ?></th>
-               <th width="20%" align="right"><?php echo _l('estimate_table_tax_heading'); ?></th>
+               <th width="15%" align="right">discount</th>
+               <th width="5%" align="right"><?php echo _l('estimate_table_tax_heading'); ?></th>
                <th width="10%" align="right"><?php echo _l('estimate_table_amount_heading'); ?></th>
                <th align="center"><i class="fa fa-cog"></i></th>
             </tr>
@@ -66,6 +67,14 @@
                <td>
                   <input type="number" name="rate" class="form-control" placeholder="<?php echo _l('item_rate_placeholder'); ?>">
                </td>
+               <td>
+                  <select name="vip" class="selectpicker vip" data-width="100%" data-none-selected-text="">
+                      <option value="0" selected>0%</option>
+                      <option value="25" >25%</option>
+                      <option value="35" >35%</option>
+                      <option value="50" >50%</option>
+                  </select>
+                </td>
                <td>
                   <?php
                      $default_tax = unserialize(get_option('default_tax'));
@@ -136,6 +145,30 @@
                $table_row .= '<input type="text" placeholder="'.$unit_placeholder.'" name="'.$items_indicator.'['.$i.'][unit]" class="form-control input-transparent text-right" value="'.$item['unit'].'">';
                $table_row .= '</td>';
                $table_row .= '<td class="rate"><input type="number" data-toggle="tooltip" title="' . _l('numbers_not_formatted_while_editing') . '" onblur="calculate_total();" onchange="calculate_total();" name="' . $items_indicator . '[' . $i . '][rate]" value="' . $item['rate'] . '" class="form-control"></td>';
+               $selected1 = '';
+                $selected2 = '';
+                $selected3 = '';
+                $selected4 = '';
+
+                $table_row .= '<td class="vip"><select name="'. $items_indicator . '[' . $i . '][vip]" onblur="calculate_total();" onchange="calculate_total();" data-discount class="selectpicker vip" data-width="100%" data-none-selected-text="">';
+
+                if($item['vip']==NULL || $item['vip'] == 0) {
+                    $selected1 = 'selected';
+                }
+                else if($item['vip'] == 25) {
+                    $selected2 = 'selected';
+                }
+                else if($item['vip'] == 35) {
+                    $selected3 = 'selected';
+                }
+                else if($item['vip'] == 50) {
+                    $selected4 = 'selected';
+                }
+                $table_row .= '<option value="0"' . $selected1 . '>0%</option>';
+                $table_row .= '<option value="25"' . $selected2 . '>25%</option>';
+                $table_row .= '<option value="35"' . $selected3 . '>35%</option>';
+                $table_row .= '<option value="50"' . $selected4 . '>50%</option></select></td>';
+
                $table_row .= '<td class="taxrate">' . $this->misc_model->get_taxes_dropdown_template('' . $items_indicator . '[' . $i . '][taxname][]', $estimate_item_taxes, (isset($is_proposal) ? 'proposal' : 'estimate'), $item['id'], true, $manual) . '</td>';
                $table_row .= '<td class="amount" align="right">' . $amount . '</td>';
                $table_row .= '<td><a href="#" class="btn btn-danger pull-left" onclick="delete_item(this,' . $item['id'] . '); return false;"><i class="fa fa-times"></i></a></td>';

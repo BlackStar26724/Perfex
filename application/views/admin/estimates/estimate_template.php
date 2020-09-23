@@ -204,6 +204,7 @@
                </div>
                <div class="row">
                   <div class="col-md-6">
+                    <input type="hidden" name="group" id="client_group" value="<?php echo isset($estimate)?$estimate->vip:'0' ?>">
                      <?php
 
                         $currency_attr = array('disabled'=>true,'data-show-subtext'=>true);

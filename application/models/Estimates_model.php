@@ -588,6 +588,9 @@ class Estimates_model extends App_Model
         $data  = $hook['data'];
         $items = $hook['items'];
 
+        $this->db->query("ALTER TABLE tblestimates ADD vip TEXT NULL");
+        $data['vip'] = $data['group'];
+        unset($data['group']);
         $this->db->insert(db_prefix() . 'estimates', $data);
         $insert_id = $this->db->insert_id();
 
@@ -718,6 +721,8 @@ class Estimates_model extends App_Model
         unset($data['removed_items']);
 
         $this->db->where('id', $id);
+        $data['vip'] = $data['group'];
+        unset($data['group']);
         $this->db->update(db_prefix() . 'estimates', $data);
 
         if ($this->db->affected_rows() > 0) {
