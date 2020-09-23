@@ -1482,10 +1482,8 @@ class Clients extends ClientsController
     /////////////////////////////////////////////////////////////////////
     public function order_now($status = false)
     {
-        $where = [
-            'clientid' => get_client_user_id(),
-        ];
-        $data['items'] = $this->invoices_model->get_items();
+        $client_id = get_client_user_id();
+        $data['items'] = $this->invoices_model->get_items($client_id);
         $data['title']    = 'Order Now';
         $data['user_id'] = get_client_user_id();
         $this->data($data);

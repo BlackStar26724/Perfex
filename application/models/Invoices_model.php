@@ -1729,7 +1729,25 @@ class Invoices_model extends App_Model
             }
         }
     }
-    public function get_items() {
+    public function get_items($client_id) {
+        
+        $group_id = $this->db->get_where('customer_groups', array('customer_id' => $client_id))->result();
+        $group_id = $group_id[0]->groupid;
+
+        $group_name = $this->db->get_where('customers_groups', array('id' => $group_id))->result();
+        $group_name = $group_name[0]->name;
+
+        $discount_percent = 0;
+        if($group_name == 'T1') {
+            $discount_percent = 25;
+        }
+        else if($group_id == 'T2') {
+            $discount_percent = 35;
+        }
+        else if($group_id == 'T3') {
+            $discount_percent = 50;
+        }
+
         $data = [];
         $i = 0;
         $this->db->order_by('id','ASC');
@@ -1740,7 +1758,7 @@ class Invoices_model extends App_Model
                 $data[$i]['commodity_code'] = $row->commodity_code;
                 $data[$i]['description'] = $row->description;
                 $data[$i]['unit'] = $row->unit;
-                $data[$i]['rate'] = $row->rate;
+                $data[$i]['rate'] = $row->rate * (100 - $discount_percent) / 100;
                 $this->db->where('rel_id', $row->id);
                 $this->db->where('rel_type', 'commodity_item_file');
 
