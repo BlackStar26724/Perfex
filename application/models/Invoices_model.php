@@ -1729,4 +1729,26 @@ class Invoices_model extends App_Model
             }
         }
     }
+    public function get_items() {
+        $data = [];
+        $i = 0;
+        $this->db->order_by('id','ASC');
+        $q = $this->db->get('tblitems');
+        if ($q->num_rows() > 0) {
+            foreach (($q->result()) as $row) {
+                $data[$i]['id'] = $row->id;
+                $data[$i]['commodity_code'] = $row->commodity_code;
+                $data[$i]['description'] = $row->description;
+                $data[$i]['unit'] = $row->unit;
+                $data[$i]['rate'] = $row->rate;
+                $this->db->where('rel_id', $row->id);
+                $this->db->where('rel_type', 'commodity_item_file');
+
+                $image = $this->db->get(db_prefix() . 'files')->result_array();
+                $data[$i]['image'] = $image[0]['file_name'];
+                $i++;
+            }
+        }
+        return $data;
+    }
 }

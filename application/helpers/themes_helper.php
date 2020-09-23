@@ -41,6 +41,11 @@ function add_default_theme_menu_items()
                     'position' => 100,
                 ]);
     } else {
+        add_theme_menu_item('order', [
+                'name'     => 'Order Now',
+                'href'     => site_url('clients/order_now'),
+                'position' => 0,
+            ]);
         if (has_contact_permission('projects')) {
             add_theme_menu_item('projects', [
                     'name'     => _l('clients_nav_projects'),

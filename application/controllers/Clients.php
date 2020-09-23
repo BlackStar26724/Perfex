@@ -1478,4 +1478,24 @@ class Clients extends ClientsController
     {
         return total_rows(db_prefix() . 'contacts', 'id !=' . get_contact_user_id() . ' AND email="' . get_instance()->db->escape_str($email) . '"') > 0 ? false : true;
     }
+
+    /////////////////////////////////////////////////////////////////////
+    public function order_now($status = false)
+    {
+        $where = [
+            'clientid' => get_client_user_id(),
+        ];
+        $data['items'] = $this->invoices_model->get_items();
+        $data['title']    = 'Order Now';
+        $data['user_id'] = get_client_user_id();
+        $this->data($data);
+        $this->view('order_now');
+        $this->layout();
+    }
+    public function get_order()
+    {
+        $data = $this->input->post('data');
+        $user_id = $this->input->post('user_id');
+        echo $user_id ;
+    }
 }
