@@ -25,10 +25,11 @@
                     <td data-order="<?php echo $item['commodity_code']; ?>"><?php echo $item['commodity_code']; ?></td>
                     <?php
                         if($item['image']!='') {
-                            echo '<td data-order="' . $item['image'] . '"><img style="height:50px" class="images_w_table" src="http://localhost/Perfex/modules/warehouse/uploads/item_img/' . $item['id'] . '/' . $item['image'] . '" alt="1000px-Apple_logo_black.svg.png"></td>';
+                            $image_url = base_url('/modules/warehouse/uploads/item_img/' . $item['id'] . '/' . $item['image']);
+                            echo '<td data-order="' . $item['image'] . '"><img style="height:50px" class="images_w_table" src="' . $image_url . '" alt=""></td>';
                         }
                         else {
-                            echo '<td data-order=""><img style="height:50px" class="images_w_table" src="http://localhost/Perfex/modules/warehouse/uploads/nul_image.jpg" alt="null_image"></td>';
+                            echo '<td data-order=""><img style="height:50px" class="images_w_table" src="'. base_url('/modules/warehouse/uploads/nul_image.jpg') . '" alt="null_image"></td>';
                         }
                     ?>
                     <td data-order="<?php echo $item['description']; ?>"><?php echo $item['description']; ?></td>
