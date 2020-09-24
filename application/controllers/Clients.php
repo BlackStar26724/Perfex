@@ -1494,6 +1494,7 @@ class Clients extends ClientsController
     {
         $data = $this->input->post('data');
         $user_id = $this->input->post('user_id');
-        echo $user_id ;
+        $result = $this->invoices_model->add_client_estimate($data, $user_id);
+        echo $result;
     }
 }

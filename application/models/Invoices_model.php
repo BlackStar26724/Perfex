@@ -1729,14 +1729,16 @@ class Invoices_model extends App_Model
             }
         }
     }
-    public function get_items($client_id) {
-        
+    public function get_client_group($client_id) {
         $group_id = $this->db->get_where('customer_groups', array('customer_id' => $client_id))->result();
         $group_id = $group_id[0]->groupid;
 
         $group_name = $this->db->get_where('customers_groups', array('id' => $group_id))->result();
         $group_name = $group_name[0]->name;
-
+        return $group_name;
+    }
+    public function get_items($client_id) {
+        $group_name = $this->get_client_group($client_id);
         $discount_percent = 0;
         if($group_name == 'T1') {
             $discount_percent = 25;
@@ -1768,5 +1770,94 @@ class Invoices_model extends App_Model
             }
         }
         return $data;
+    }
+    public function add_client_estimate($data, $client_id) {
+        $estimates = $this->db->get('estimates');
+
+        $index = 1;
+        if ($estimates->num_rows() > 0) {
+            foreach (($estimates->result()) as $row) {
+                if($index < $row->number)
+                    $index = $row->number;
+            }
+        }
+
+        $group_name = $this->get_client_group($client_id);
+        $discount_percent = 0;
+        $discount_type = '';
+        $discount_total = 0;
+        if($group_name == 'T1') {
+            $discount_percent = 25;
+            $discount_type = 'before_tax';
+            $discount_total = $row->total * 0.25;
+        }
+        else if($group_id == 'T2') {
+            $discount_percent = 35;
+            $discount_type = 'before_tax';
+            $discount_total = $row->total * 0.35;
+        }
+        else if($group_id == 'T3') {
+            $discount_percent = 50;
+            $discount_type = 'before_tax';
+            $discount_total = $row->total * 0.5;   
+        }
+        $total = 0;
+        if (count($data) > 0) {
+            foreach($data as $row) {
+                $item = $this->db->get_where('items', array('id' => $row['item_id']))->result();
+                $total += $item[0]->rate * $row['qty'] * (100 - $discount_percent) / 100;
+            }
+        }
+        $this->db->query("ALTER TABLE tblestimates ADD vip TEXT NULL");
+
+        $data1 = array(
+            'sent' => '0',
+            'clientid' => $client_id,
+            'number' => ++$index,
+            'prefix' => 'EST-',
+            'number_format' => '1',
+            'datecreated' => date('Y-m-d H:i:s'),
+            'date' => date('Y-m-d', strtotime(date('Y-m-d H:i:s'))),
+            'expirydate' => date('Y-m-d', strtotime("+1 week", strtotime(date('Y-m-d H:i:s')))),
+            'currency' => '1',
+            'subtotal' => $total,
+            'total_tax' => '0',
+            'total'=> $total,
+            'adjustment' => '0',
+            'addedfrom' => '1',
+            'status' => '1',
+            'hash' => md5(rand() . microtime() . time() . uniqid()),
+            'discount_percent' => '0',
+            'discount_total' => '0',
+            'sale_agent' => '0',
+            'include_shipping' => '1',
+            'show_shipping_on_estimate' => '1',
+            'show_quantity_as' => '1',
+            'pipeline_order' => '0',
+            'is_expiry_notified' => '0',
+            'vip' => $group_name,
+        );
+        $this->db->insert('estimates', $data1);
+        $estimate_id = $this->db->insert_id();
+
+        $index1 = 1;
+        if (count($data) > 0) {
+            foreach($data as $row) {
+                $item = $this->db->get_where('items', array('id' => $row['item_id']))->result();
+                $item = $item[0];
+                $itemable = array(
+                    'rel_id' => $estimate_id,
+                    'rel_type' => 'estimate',
+                    'description' => $item->description,
+                    'qty' => $row['qty'],
+                    'rate' => $item->rate,
+                    'unit' => $item->unit,
+                    'item_order' => $index1++,
+                    'vip' => $discount_percent,
+                );
+                $this->db->insert('itemable', $itemable);
+            }
+        }
+        return "Success";
     }
 }
