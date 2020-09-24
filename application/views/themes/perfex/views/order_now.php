@@ -19,7 +19,6 @@ tr:nth-child(even) {
   background-color: #f2f2f2
 }
 #myInput {
-  background-image: url('/css/searchicon.png');
   background-position: 10px 10px;
   background-repeat: no-repeat;
   width: 100%;
