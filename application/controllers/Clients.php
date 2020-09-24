@@ -1492,9 +1492,14 @@ class Clients extends ClientsController
     }
     public function get_order()
     {
-        $data = $this->input->post('data');
-        $user_id = $this->input->post('user_id');
-        $result = $this->invoices_model->add_client_estimate($data, $user_id);
-        echo $result;
+        if(get_client_user_id() != false) {
+            $data = $this->input->post('data');
+            $user_id = $this->input->post('user_id');
+            $result = $this->invoices_model->add_client_estimate($data, $user_id);
+            echo $result;
+        }
+        else {
+            echo "Please login again";
+        }
     }
 }
