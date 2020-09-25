@@ -349,6 +349,7 @@ class Invoices_model extends App_Model
         $data  = $hook['data'];
         $items = $hook['items'];
 
+        $this->db->query("ALTER TABLE tblinvoices ADD vip TEXT NULL");
         $data['vip'] = $data['group'];
         unset($data['group']);
         $this->db->insert(db_prefix() . 'invoices', $data);
