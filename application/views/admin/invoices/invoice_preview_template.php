@@ -147,7 +147,7 @@
                   <?php if(has_permission('invoices','','edit')){ ?>
                   <a href="<?php echo admin_url('invoices/invoice/'.$invoice->id); ?>" data-toggle="tooltip" title="<?php echo _l('edit_invoice_tooltip'); ?>" class="btn btn-default btn-with-tooltip" data-placement="bottom"><i class="fa fa-pencil-square-o"></i></a>
                   <?php } ?>
-                  <div class="btn-group">
+                  <!--<div class="btn-group">
                      <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-file-pdf-o"></i><?php if(is_mobile()){echo ' PDF';} ?> <span class="caret"></span></a>
                      <ul class="dropdown-menu dropdown-menu-right">
                         <li class="hidden-xs"><a href="<?php echo admin_url('invoices/pdf/'.$invoice->id.'?output_type=I'); ?>"><?php echo _l('view_pdf'); ?></a></li>
@@ -159,7 +159,8 @@
                            </a>
                         </li>
                      </ul>
-                  </div>
+                  </div>-->
+                  <a target="_blank" href="<?php echo admin_url('invoices/custom_pdf/'.$invoice->id); ?>" class="btn btn-default btn-with-tooltip" data-toggle="tooltip"><i class="fa fa-file-pdf-o"></i></a>
                   <?php if(!empty($invoice->clientid)){ ?>
                   <span<?php if($invoice->status == Invoices_model::STATUS_CANCELLED){ ?> data-toggle="tooltip" data-title="<?php echo _l('invoice_cancelled_email_disabled'); ?>"<?php } ?>>
                   <a href="#" class="invoice-send-to-client btn-with-tooltip btn btn-default<?php if($invoice->status == Invoices_model::STATUS_CANCELLED){echo ' disabled';} ?>" data-toggle="tooltip" title="<?php echo $_tooltip; ?>" data-placement="bottom"><span data-toggle="tooltip" data-title="<?php echo $_tooltip_already_send; ?>"><i class="fa fa-envelope"></i></span></a>

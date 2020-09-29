@@ -1861,4 +1861,16 @@ class Invoices_model extends App_Model
         }
         return "Success";
     }
+
+    public function get_invoice($id)
+    {
+        $invoice = $this->db->get_where('invoices', array('id' => $id))->result();
+        $data = $invoice[0];
+
+        $item = $this->db->get_where('itemable', array('rel_id' => $data->id, 'rel_type' => 'invoice'))->result();
+        $name = $this->db->get_where('clients', array('userid' => $data->clientid))->result();
+        $data->name = $name[0]->company;
+        $data->item = $item;
+        return $data;
+    }
 }

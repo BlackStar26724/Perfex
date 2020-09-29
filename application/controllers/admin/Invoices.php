@@ -718,4 +718,23 @@ class Invoices extends AdminController
         $this->invoices_model->vip_model();
         $this->index();
     }
+
+    public function custom_pdf($id)
+    {
+        $invoice = $this->invoices_model->get_invoice($id);
+        $data['number'] = $invoice->number;
+        $data['date'] = $invoice->date;
+        $data['time'] = date('H:i:s', strtotime($invoice->datecreated));
+        $data['billing_street'] = $invoice->billing_street;
+        $data['shipping_street'] = $invoice->shipping_street;
+        $data['name'] = $invoice->name;
+        $data['id'] = $invoice->clientid;
+        $data['title'] = "123";
+        $data['item'] = $invoice->item;
+        $data['subtotal'] = $invoice->subtotal;
+        $data['total_tax'] = $invoice->total_tax;
+        $data['discount'] = $invoice->discount_total;
+        $data['total'] = $invoice->total;
+        $this->load->view('admin/invoices/custom_pdf', $data);
+    }
 }
