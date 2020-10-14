@@ -4037,11 +4037,31 @@ class Warehouse_model extends App_Model {
 
         if ($q->num_rows() > 0) {
             foreach (($q->result()) as $row) {
+            	$category_id = 1;
+            	// search pos tbl_categories insert new group
+            	$item_group = $this->db->get_where('items_groups', array('id' => $row->group_id))->result();
+            	$item_group = $item_group[0];
+            	$category = $pospospos_db->get_where('categories', array('name' => $item_group->name));
+            	
+            	if($category->num_rows() == 0) {
+            		$category_data = array(
+            			'code' => $item_group->commodity_group_code,
+            			'name' => $item_group->name,
+            			'image' => 'no_image.png',
+            		);
+            		$pospospos_db->insert('categories', $category_data);
+            		$category_id = $pospospos_db->insert_id();
+            	}
+            	else {
+            		$category = $category->result();
+            		$category_id = $category[0]->id;
+            	}
+
                 $data = array(
 	                'type' => 'standard',
 	                'code' => $row->commodity_code,
 	                'name' => $row->description,
-	                'category_id' => '1',
+	                'category_id' => $category_id,
 	                'price' => $row->rate,
 	                'cost' => $row->rate,
 	                'tax' => $row->tax,
