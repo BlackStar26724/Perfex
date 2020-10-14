@@ -1876,4 +1876,9 @@ class Invoices_model extends App_Model
         $data->item = $item;
         return $data;
     }
+
+    public function get_items_groups() {
+        $data = $this->db->get('items_groups')->result();
+        return $data;
+    }
 }

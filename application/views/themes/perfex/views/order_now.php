@@ -35,7 +35,13 @@ tr:nth-child(even) {
     </div>
 </div>
 <div class="panel_s">
- <div class="panel-body">
+  <div class="panel-body">
+    <select name="items_groups" id="items_groups" onchange="category_select(this)">
+      <option value="All">All</option>
+      <?php foreach ($items_groups as $item_group) { ?>
+          <?php echo '<option value="' . $item_group->name . '">' . $item_group->name . '</option>'; ?>
+      <?php } ?>
+    </select>
     <button class="btn btn-info pull-right display-block mr-4 button-margin-r-b" style="margin-bottom: 20px" onclick="func_send_order()">Send</button>
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search" title="Type in a name">
     <table id="myTable">
@@ -68,5 +74,5 @@ tr:nth-child(even) {
             </tr>
         <?php } ?>
     </table>
-</div>
+  </div>
 </div>

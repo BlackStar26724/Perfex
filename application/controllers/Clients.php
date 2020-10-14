@@ -1484,6 +1484,7 @@ class Clients extends ClientsController
     {
         $client_id = get_client_user_id();
         $data['items'] = $this->invoices_model->get_items($client_id);
+        $data['items_groups'] = $this->invoices_model->get_items_groups();
         $data['title']    = 'Order Now';
         $data['user_id'] = get_client_user_id();
         $this->data($data);
