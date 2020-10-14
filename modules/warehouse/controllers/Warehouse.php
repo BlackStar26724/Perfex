@@ -2793,24 +2793,5 @@ class warehouse extends AdminController {
 		$data = $this->warehouse_model->commodity_sync_model();
 		redirect(admin_url('warehouse/commodity_list'));
 	}
-	public function copy_image() {
-		$base_path = FCPATH;
-		echo $base_path;
-		
-		/*$image_link = $base_path."modules/warehouse/uploads/item_img/1/1000px-Apple_logo_black.svg.png";
-		$filename = basename($image_link);
-
-		$copy_directory = substr($base_path, 0, -7);
-		$copy_directory .= "Pos/uploads/".@date('YmdHis').$filename;
-
-		if(copy($image_link, $copy_directory))
-		{
-			echo "success";
-		}
-		else
-		{
-			echo "failed";
-		}*/
-	}
 
 }

@@ -4056,6 +4056,22 @@ class Warehouse_model extends App_Model {
             		$category = $category->result();
             		$category_id = $category[0]->id;
             	}
+            	//copy image
+            	$image = $this->db->get_where('files', array('rel_id' => $row->id, 'rel_type' => 'commodity_item_file'));
+            	$image_name = 'no_image.png';
+            	if($image->num_rows() > 0) {
+            		$image = $image->result();
+            		$file_name = $image[0]->file_name;
+            		$base_path = FCPATH;
+		
+					$image_link = $base_path . "modules/warehouse/uploads/item_img/" . $row->id . "/" . $file_name;
+					$copy_directory = substr($base_path, 0, -7);
+					$image_name = @date('YmdHis').$file_name;
+					
+					copy($image_link, $copy_directory . "Pos/uploads/" . $image_name);
+					copy($image_link, $copy_directory . "Pos/uploads/thumbs/" . $image_name);
+            	}
+            	//
 
                 $data = array(
 	                'type' => 'standard',
@@ -4063,6 +4079,7 @@ class Warehouse_model extends App_Model {
 	                'name' => $row->description,
 	                'category_id' => $category_id,
 	                'price' => $row->rate,
+	                'image' => $image_name,
 	                'cost' => $row->rate,
 	                'tax' => $row->tax,
 	                'tax_method' => '0',
