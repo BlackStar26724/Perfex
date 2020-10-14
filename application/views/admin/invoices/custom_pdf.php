@@ -5,7 +5,7 @@
     <style>
         table
         {
-            width: 900px;
+            width: 760px;
             font: 17px Calibri;
         }
         table, th, td 
