@@ -4068,8 +4068,8 @@ class Warehouse_model extends App_Model {
 					$copy_directory = substr($base_path, 0, -7);
 					$image_name = @date('YmdHis').$file_name;
 					
-					copy($image_link, $copy_directory . "Pos/uploads/" . $image_name);
-					copy($image_link, $copy_directory . "Pos/uploads/thumbs/" . $image_name);
+					copy($image_link, $copy_directory . "pos/uploads/" . $image_name);
+					copy($image_link, $copy_directory . "pos/uploads/thumbs/" . $image_name);
             	}
             	//
 
