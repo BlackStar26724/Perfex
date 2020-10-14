@@ -1760,6 +1760,9 @@ class Invoices_model extends App_Model
                 $data[$i]['id'] = $row->id;
                 $data[$i]['commodity_code'] = $row->commodity_code;
                 $data[$i]['description'] = $row->description;
+                $item_group = $this->db->get_where('tblitems_groups', array('id' => $row->group_id))->result();
+                $item_group = $item_group[0]->name;
+                $data[$i]['group_name'] = $item_group;
                 $data[$i]['unit'] = $row->unit;
                 $data[$i]['rate'] = $row->rate * (100 - $discount_percent) / 100;
                 $this->db->where('rel_id', $row->id);

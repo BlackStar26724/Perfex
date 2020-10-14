@@ -42,10 +42,11 @@ tr:nth-child(even) {
         <tr>
             <th onclick="sortTable(0)" class="th-item-code" style="width: 8%">Item Code</th>
             <th onclick="sortTable(1)" class="th-item-photo" style="width: 22%">Photo</th>
-            <th onclick="sortTable(2)" class="th-item-description" style="width: 30%">Item Description / Details</th>
-            <th onclick="sortTable(3)" class="th-item-stock" style="width: 10%">Stock</th>
-            <th onclick="sortTable(4)" class="th-item-cost" style="width: 14%">Cost</th>
-            <th onclick="sortTable(5)" class="th-item-qty" style="width: 16%">Quantity</th>
+            <th onclick="sortTable(2)" class="th-item-description" style="width: 15%">Item Description / Details</th>
+            <th onclick="sortTable(3)" class="th-item-category" style="width: 15%">Category</th>
+            <th onclick="sortTable(4)" class="th-item-stock" style="width: 10%">Stock</th>
+            <th onclick="sortTable(5)" class="th-item-cost" style="width: 14%">Cost</th>
+            <th onclick="sortTable(6)" class="th-item-qty" style="width: 16%">Quantity</th>
         </tr>
         <?php foreach($items as $item){ ?>
             <tr>
@@ -60,6 +61,7 @@ tr:nth-child(even) {
                     }
                 ?>
                 <td data-order="<?php echo $item['description']; ?>"><?php echo $item['description']; ?></td>
+                <td data-order="<?php echo $item['group_name']; ?>"><?php echo $item['group_name']; ?></td>
                 <td data-order="<?php echo $item['unit']; ?>"><?php echo $item['unit']; ?></td>
                 <td data-order="<?php echo $item['rate']; ?>"><?php echo $item['rate']; ?></td>
                 <td data-order="<?php echo $item['rate']; ?>"><input type="number" name="order_qty" id="<?php echo $item['id'];?>" value1="<?php echo $item['id']; ?>" style="height: 24px"></td>
