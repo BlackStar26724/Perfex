@@ -3,10 +3,14 @@
 <head>
     <title>Convert Table to PDF using JavaScript</title>
     <style>
+        @font-face{
+            font-family: Angsa;
+            src:url(<?php echo base_url('/assets/angsa.ttf');?>);
+        }
         table
         {
             width: 760px;
-            font: 17px Calibri;
+            font: 21px Angsa;
         }
         table, th, td 
         {
