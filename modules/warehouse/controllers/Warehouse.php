@@ -2793,7 +2793,7 @@ class warehouse extends AdminController {
 		$data = $this->warehouse_model->commodity_sync_model();
 		redirect(admin_url('warehouse/commodity_list'));
 	}
-	public function copy_image() {
+	/*public function copy_image() {
 		$base_path = FCPATH;
 		echo $base_path;
 		
@@ -2813,6 +2813,6 @@ class warehouse extends AdminController {
 		{
 			echo "failed";
 		}
-	}
+	}*/
 
 }
