@@ -4030,7 +4030,7 @@ class Warehouse_model extends App_Model {
 	}
 	//////////////////////////////////////////////////////////////////
 	public function commodity_sync_model() {
-		$pospospos_db = $this->load->database('pospospos', TRUE);
+		/*$pospospos_db = $this->load->database('pospospos', TRUE);
 		$pospospos_db->empty_table('products');
 		$pospospos_db->empty_table('product_store_qty');
 		$q = $this->db->get('items');
@@ -4103,6 +4103,6 @@ class Warehouse_model extends App_Model {
                 );
                 $pospospos_db->insert('product_store_qty', $store_quantity);
             }
-        }
+        }*/
 	}
 }
