@@ -2791,8 +2791,7 @@ class warehouse extends AdminController {
 
 	public function commodity_sync_pos() {
 		$data = $this->warehouse_model->commodity_sync_model();
-		var_dump("123123");
-		//redirect(admin_url('warehouse/commodity_list'));
+		redirect(admin_url('warehouse/commodity_list'));
 	}
 	/*public function copy_image() {
 		$base_path = FCPATH;
